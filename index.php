@@ -13,7 +13,8 @@
         <h1>MasterMind</h1>
         <h2>Règles du jeu :</h2>
         <p class="align-left">L'ordinateur choisit une combinaison à 4 chiffres entre 1 et 6.<br><br>
-            Le joueur propose une combinaison. L'ordinateur lui retourne un code sous forme de pion sans préciser quel chiffre
+            Le joueur propose une combinaison. L'ordinateur lui retourne un code sous forme de pion sans préciser quel
+            chiffre
             correspond à quel pion : un pion rouge par chiffre juste mais mal placé, et un pion blanc par chiffre bien
             placé.<br><br>
             Lorsque le code est 4 pions blancs, le joueur a gagné et peut relancer une partie.</p>

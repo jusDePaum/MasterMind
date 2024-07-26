@@ -10,7 +10,7 @@
         for ($i = 0; $i < count($propositions); $i++) { //Parcours de toutes les propositions
             echo "<tr>";
             for ($j = 0; $j < 4; $j++) {
-                echo "<td>".$propositions[$i][0][$j].'</td>'; //On met dans une cellule chaque chiffre de la proposition parcourue
+                echo "<td>" . $propositions[$i][0][$j] . '</td>'; //On met dans une cellule chaque chiffre de la proposition parcourue
             }
             if (!empty($propositions[$i][1])) { //S'il y a des pions
                 echo "<td>";
@@ -49,11 +49,11 @@
                 echo $display;
             }
             if ($_SESSION["statutPartie"] === 1) { // Si la partie est gagnée
-                $display = "<div><b>Bien joué !</b> Vous avez gagné en ".$_SESSION["nbEssais"]." essais ! <a href='Controleur/controleurReset.php'>Rejouer</a>"; //Affichage du texte de victoire
+                $display = "<div><b>Bien joué !</b> Vous avez gagné en " . $_SESSION["nbEssais"] . " essais ! <a href='Controleur/controleurReset.php'>Rejouer</a>"; //Affichage du texte de victoire
                 echo $display;
             }
-            if($_SESSION["statutPartie"] === 2){ // Si la partie est perdue
-                $display = "<div><b>Dommage !</b> Le code secret était ".$_SESSION["codeToGuess"]." ! <a href='Controleur/controleurReset.php'>Rejouer</a>"; //Affichage du texte de défaite
+            if ($_SESSION["statutPartie"] === 2) { // Si la partie est perdue
+                $display = "<div><b>Dommage !</b> Le code secret était " . $_SESSION["codeToGuess"] . " ! <a href='Controleur/controleurReset.php'>Rejouer</a>"; //Affichage du texte de défaite
                 echo $display;
             }
             ?>
