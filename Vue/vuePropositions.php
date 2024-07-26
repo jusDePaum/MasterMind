@@ -1,6 +1,6 @@
 <table>
     <tr>
-        <th>Propositions</th>
+        <th colspan="4">Propositions</th>
         <th>Résultat</th>
     </tr>
     <?php
@@ -9,7 +9,7 @@
         for ($i = 0; $i < count($propositions); $i++) {
             echo "<tr>";
             for ($j = 0; $j < 4; $j++) {
-                echo "<td>" . $propositions[$i][0][$j] . "</td>";
+                echo "<td>".$propositions[$i][0][$j].'</td>';
             }
             if (!empty($propositions[$i][1])) {
                 echo "<td>";
@@ -28,22 +28,32 @@
     }
     ?>
     <tr>
-        <td>À vous de jouer !</td>
+        <td colspan="5">À vous de jouer !</td>
     </tr>
     <tr>
-        <td>
+        <td colspan="5">
             <?php
-            $selects = "";
-            for ($i = 0; $i < 4; $i++) {
-                $selects .= "<select name=\"input$i\">";
-                for ($j = 1; $j <= 6; $j++) {
-                    $selects .= "<option value=\"{$j}\">{$j}</option>";
+            $display = "";
+            if ($_SESSION["statutPartie"] === 0) { // Si la partie est en cours
+                for ($i = 0; $i < 4; $i++) {
+                    $display .= "<select name=\"input$i\">";
+                    for ($j = 1; $j <= 6; $j++) {
+                        $display .= "<option value=\"{$j}\">{$j}</option>";
+                    }
+                    $display .= "</select>";
                 }
-                $selects .= "</select>";
+                $display .= "<input type=\"submit\" value=\"Valider\" id=\"submitAnswer\">";
+                echo $display;
             }
-            echo $selects;
+            if ($_SESSION["statutPartie"] === 1) { // Si la partie est gagnée
+                $display = "<div><b>Bien joué !</b> Vous avez gagné en ".$_SESSION["nbEssais"]." essais ! <a href='Controleur/controleurReset.php'>Rejouer</a>";
+                echo $display;
+            }
+            if($_SESSION["statutPartie"] === 2){ // Si la partie est perdue
+                $display = "<div><b>Dommage !</b> Le code secret était ".$_SESSION["codeToGuess"]." ! <a href='Controleur/controleurReset.php'>Rejouer</a>";
+                echo $display;
+            }
             ?>
-            <input type="submit" value="Valider" id="submitAnswer">
         </td>
     </tr>
 </table>

@@ -10,26 +10,26 @@ for ($i = 0; $i < 4; $i++) {
 $propositionToRecord = $proposition;
 $points = [];
 for($i = 0; $i < 4; $i++){
-    $isChecked = false;
+    if($proposition[$i] === $codeToGuess[$i]){
+        $points[] = 1;
+        $proposition[$i] = 7;
+        $codeToGuess[$i] = 8;
+    }
+}
+for($i = 0; $i < 4; $i++){
     for($j = 0; $j < 4; $j++){
-        if($codeToGuess[$i] === $proposition[$j] && $isChecked === false){
-            $isChecked = true;
-            if($i === $j){
-                $points[] = 1;
-                $proposition[$j] = 7;
-            }
-            else{
-                $points[] = 2;
-                $proposition[$j] = 7;
-            }
+        if($codeToGuess[$i] === $proposition[$j]){
+            $points[] = 2;
+            $proposition[$j] = 9;
+            $codeToGuess[$i] = 8;
         }
     }
 }
 if($points === [1, 1, 1, 1]){
-    //Faire la win
+    $_SESSION["statutPartie"] = 1;
 }
 else if($_SESSION["nbEssais"] === 12){
-    //Faire la lose
+    $_SESSION["statutPartie"] = 2;
 }
 $propositionToAdd = [$propositionToRecord, $points];
 $_SESSION["propositions"][] = $propositionToAdd;

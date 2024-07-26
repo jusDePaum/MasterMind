@@ -1,5 +1,21 @@
 body{
-    font-family: Montserrat, serif;
+    font-family: Montserrat, Montserrat, sans-serif;
+    font-size: 0.8rem;
+}
+
+table{
+    border-collapse: collapse;
+    justify-content: space-between;
+}
+
+td{
+    text-align: center;
+    vertical-align: center;
+    border-bottom: 1px solid gray;
+}
+
+.align-left{
+    text-align: left;
 }
 
 span.pion {
