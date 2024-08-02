@@ -1,6 +1,6 @@
 <?php
 /**
- * Détruis tout le contenu de la session
+ * Détruit tout le contenu de la session
  */
 session_start();
 session_destroy();
