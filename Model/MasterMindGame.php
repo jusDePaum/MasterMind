@@ -3,15 +3,23 @@
 namespace Model;
 
 use Random\RandomException;
-
+require_once 'AbstractGame.php';
 class MasterMindGame implements AbstractGame
 {
 
     private array $data;
+    private static array $instances = [];
 
-    public function __construct()
+    private function __construct()
     {
+    }
 
+    public static function getInstance(): MasterMindGame{
+        $subclass = MasterMindGame::class;
+        if(!isset(self::$instances[$subclass])){
+            self::$instances[$subclass] = new MasterMindGame();
+        }
+        return self::$instances[$subclass];
     }
 
     /**
@@ -20,7 +28,12 @@ class MasterMindGame implements AbstractGame
      */
     public function initGame($boardSize): void
     {
-        //Initializes the game (cf. controleurPrincipal.php) and fills $datas with different rules and the code
+        if (!isset($_SESSION["codeToGuess"])) {
+            $_SESSION["statutPartie"] = 0; //cf. README - Choix personnels et clarifications
+            $_SESSION["codeToGuess"] = $this->createCode(); //Code que le joueur doit deviner
+            $_SESSION["nbEssais"] = 0; //Nombre d'essais réalisés
+            $_SESSION["propositions"] = []; //Tableau contenant les différentes propositions du joueur
+        }
     }
 
     /**
@@ -38,7 +51,7 @@ class MasterMindGame implements AbstractGame
      */
     public function checkWin($move): bool
     {
-        //Checks if $move is equal to the code, and save the similarities in $data. Returns true if the 2 are equals
+        //Checks if $move is equal to the code, and save the similarities in $data. Returns true if both are equals
         return false;
     }
 

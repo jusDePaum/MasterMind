@@ -21,8 +21,14 @@
     </div>
     <form method="post" action="/Controleur/controleurVerification.php">
         <?php
+
+        require_once "Model/MasterMindGame.php";
+        use Model\MasterMindGame;
+
         session_start();
-        require_once 'Controleur/controleurPrincipal.php'; //Appel du contrôleur principal pour initialiser la partie
+        $MasterMind = MasterMindGame::getInstance();
+        $MasterMind->initGame(4);
+
         require_once "Vue/vuePropositions.php"; //Appel de la vuePropositions pour le plateau de jeu
         ?>
     </form>
