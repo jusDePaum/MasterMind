@@ -1,7 +1,7 @@
 <?php
 use Random\RandomException;
 
-class Model_MasterMindGame implements Model_AbstractGame
+class Model_MasterMindGame extends Model_AbstractGame
 {
     private Model_StatutPartie $gameStatus;
     private string $codeToGuess = "";
@@ -135,7 +135,7 @@ class Model_MasterMindGame implements Model_AbstractGame
     }
 
     public static function unserialize(array $data): Model_MasterMindGame{
-        $MasterMind = new Model_MastermindGame();
+        $MasterMind = new Model_MasterMindGame();
         $MasterMind->setGameStatus(Model_StatutPartie::from($data["status"]));
         $MasterMind->setCodeToGuess($data["codeToGuess"]);
         $MasterMind->setData($data["data"]);

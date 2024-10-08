@@ -1,17 +1,30 @@
 <?php
 
-interface Model_AbstractGame
+abstract class Model_AbstractGame
 {
-
     /**
+     * Initializes the game with different rules
      * @param $boardSize
+     * @return void
      */
-    public function initGame($boardSize); //Initializes the game with different rules
+    public function initGame($boardSize){
 
-    public function playMove(); //Called after a move, check a win condition by calling checkWin(), then record it in $datas
+    }
 
     /**
-     * @param $move
+     * Called after a move to record it
+     * @return void
      */
-    public function checkWin($move); //Called by playMove(), checks the win condition after a move. Returns a boolean if it's either a win or not
+    public function playMove(){
+
+    }
+
+    /**
+     * Checks the win condition. Returns a boolean whether it's a win or not
+     * @param $move
+     * @return
+     */
+    public function checkWin($move){
+
+    }
 }
