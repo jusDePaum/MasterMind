@@ -1,25 +1,14 @@
 <?php
-
-namespace Model;
-
 use Random\RandomException;
-require_once 'AbstractGame.php';
-class MasterMindGame implements AbstractGame
+
+class Model_MasterMindGame implements Model_AbstractGame
 {
-
+    private Model_StatutPartie $gameStatus;
+    private string $codeToGuess = "";
     private array $data;
-    private static array $instances = [];
 
-    private function __construct()
+    public function __construct()
     {
-    }
-
-    public static function getInstance(): MasterMindGame{
-        $subclass = MasterMindGame::class;
-        if(!isset(self::$instances[$subclass])){
-            self::$instances[$subclass] = new MasterMindGame();
-        }
-        return self::$instances[$subclass];
     }
 
     /**
@@ -28,31 +17,61 @@ class MasterMindGame implements AbstractGame
      */
     public function initGame($boardSize): void
     {
-        if (!isset($_SESSION["codeToGuess"])) {
-            $_SESSION["statutPartie"] = 0; //cf. README - Choix personnels et clarifications
-            $_SESSION["codeToGuess"] = $this->createCode(); //Code que le joueur doit deviner
-            $_SESSION["nbEssais"] = 0; //Nombre d'essais réalisés
-            $_SESSION["propositions"] = []; //Tableau contenant les différentes propositions du joueur
+        if($this->codeToGuess === ""){
+            $this->gameStatus = Model_StatutPartie::EnCours;
+            $this->codeToGuess= $this->createCode();
+            $this->data = [];
         }
     }
 
     /**
-     * @param $move
      * @return void
      */
-    public function playMove($move): void
+    public function playMove(): void
     {
-        //Called after a move, check win conditions by calling checkWin() function, then records the $move in $data
+        $proposition = "";
+        for ($i = 0; $i < 4; $i++) {
+            $proposition .= $_POST["input" . $i];
+        }
+        $this->data[] = $proposition;
     }
 
     /**
+     * Checks if $move is equal to the code. Returns true if both are equals, an array otherwise
      * @param $move
-     * @return bool
+     * @return bool|array
      */
-    public function checkWin($move): bool
+    public function checkWin($move): bool | array
     {
-        //Checks if $move is equal to the code, and save the similarities in $data. Returns true if both are equals
-        return false;
+        if($move === $this->codeToGuess){
+            return true;
+        }
+        else if(count($this->data) === 12){
+            return false;
+        }
+        $points = [];
+        $codeToGuess = $this->codeToGuess;
+        //1er parcours - Recherche des pions blancs
+        for ($i = 0; $i < 4; $i++) {
+            if ($move[$i] === $codeToGuess[$i]) {
+                $points[] = 'W';
+                //On modifie les valeurs dans le $codeToGuess et $proposition pour éviter qu'elles soient recomptées
+                $move[$i] = 7;
+                $codeToGuess[$i] = 8;
+            }
+        }
+        //2nd parcours - Recherche des pions rouges
+        for ($i = 0; $i < 4; $i++) {
+            for ($j = 0; $j < 4; $j++) {
+                if ($codeToGuess[$i] === $move[$j]) {
+                    $points[] = "R";
+                    //On modifie les valeurs dans le $codeToGuess et $move pour éviter qu'elles soient recomptées
+                    $move[$j] = 9;
+                    $codeToGuess[$i] = 8;
+                }
+            }
+        }
+        return $points;
     }
 
 
@@ -88,5 +107,38 @@ class MasterMindGame implements AbstractGame
     public function setData(array $data): void
     {
         $this->data = $data;
+    }
+
+    public function getGameStatus(): Model_StatutPartie
+    {
+        return $this->gameStatus;
+    }
+
+    public function setGameStatus(Model_StatutPartie $gameStatus): void
+    {
+        $this->gameStatus = $gameStatus;
+    }
+
+    public function getCodeToGuess(): string
+    {
+        return $this->codeToGuess;
+    }
+
+    public function setCodeToGuess(string $codeToGuess): void
+    {
+        $this->codeToGuess = $codeToGuess;
+    }
+
+    public function serialize(): array
+    {
+        return ["status" => $this->gameStatus->value, "codeToGuess" => $this->codeToGuess, "data" => $this->data];
+    }
+
+    public static function unserialize(array $data): Model_MasterMindGame{
+        $MasterMind = new Model_MastermindGame();
+        $MasterMind->setGameStatus(Model_StatutPartie::from($data["status"]));
+        $MasterMind->setCodeToGuess($data["codeToGuess"]);
+        $MasterMind->setData($data["data"]);
+        return $MasterMind;
     }
 }

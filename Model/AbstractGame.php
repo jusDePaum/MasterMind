@@ -1,8 +1,6 @@
 <?php
 
-namespace Model;
-
-interface AbstractGame
+interface Model_AbstractGame
 {
 
     /**
@@ -10,10 +8,7 @@ interface AbstractGame
      */
     public function initGame($boardSize); //Initializes the game with different rules
 
-    /**
-     * @param $move
-     */
-    public function playMove($move); //Called after a move, check a win condition by calling checkWin(), then record it in $datas
+    public function playMove(); //Called after a move, check a win condition by calling checkWin(), then record it in $datas
 
     /**
      * @param $move

@@ -21,13 +21,21 @@
     </div>
     <form method="post" action="/Controleur/controleurVerification.php">
         <?php
-
-        require_once "Model/MasterMindGame.php";
-        use Model\MasterMindGame;
-
+        require_once "autoLoader.php";
         session_start();
-        $MasterMind = MasterMindGame::getInstance();
-        $MasterMind->initGame(4);
+
+        if(!isset($_SESSION['MasterMindGame'])){
+            $MasterMind = new Model_MasterMindGame();
+            $MasterMind->initGame(4);
+            $_SESSION['MasterMindGame'] = $MasterMind->serialize();
+        }
+        else{
+            $MasterMind = $_SESSION['MasterMindGame'];
+        }
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        var_dump(Model_MasterMindGame::unserialize($_SESSION['MasterMindGame']));
 
         require_once "Vue/vuePropositions.php"; //Appel de la vuePropositions pour le plateau de jeu
         ?>
@@ -35,4 +43,3 @@
 </main>
 </body>
 </html>
-
