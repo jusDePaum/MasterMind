@@ -14,6 +14,7 @@ class App_Main
         $this->displayRules();
         $this->codeToGuess = $this->createCode(4);
         $this->gameStatus = Model_StatutPartie::EnCours;
+        echo $this->codeToGuess;
         $this->data = [];
         $this->essai();
     }
@@ -35,21 +36,11 @@ class App_Main
             } else {
                 echo "Bien joué ! Vous avez gagné en " . count($this->data) . " coups ;) \n";
             }
-            $replay = readline("Rejouer ? [0] / [N] : ");
-            if($replay !== "O"){
-                exit();
-            }
-            system("clear");
-            $this->initGame();
+            $this->replay();
         }
         else {
             echo "Dommage ! Le code secret était " . $this->codeToGuess . "\n";
-            $replay = readline("Rejouer ? [0] / [N] : ");
-            if($replay !== "O"){
-                exit();
-            }
-            system("clear");
-            $this->initGame();
+            $this->replay();
         }
 
     }
@@ -103,10 +94,15 @@ class App_Main
             return $points;
     }
 
-
-
-
-
+    public function replay(): void
+    {
+        $replay = readline("Rejouer ? [0] / [N] : ");
+        if($replay !== "O"){
+            exit();
+        }
+        system("clear");
+        $this->initGame();
+    }
 
 
     function createCode(): string
