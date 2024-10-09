@@ -1,7 +1,7 @@
 <?php
 use Random\RandomException;
 
-class Model_MasterMindGame extends Model_AbstractGame
+class Model_MasterMindGame extends Model_AbstractGame implements Model_saveModule
 {
     private Model_StatutPartie $gameStatus;
     private string $codeToGuess = "";

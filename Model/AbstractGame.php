@@ -22,17 +22,9 @@ abstract class Model_AbstractGame
     /**
      * Checks the win condition. Returns a boolean whether it's a win or not
      * @param $move
-     * @return bool
+     * @return void
      */
     public function checkWin($move){
-
-    }
-
-    public function save($filename){
-
-    }
-
-    public static function load(){
 
     }
 }
