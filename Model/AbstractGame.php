@@ -27,4 +27,12 @@ abstract class Model_AbstractGame
     public function checkWin($move){
 
     }
+
+    public function save($filename){
+
+    }
+
+    public static function load(){
+
+    }
 }

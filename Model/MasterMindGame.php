@@ -74,7 +74,6 @@ class Model_MasterMindGame extends Model_AbstractGame
         return $points;
     }
 
-
     /***
      * Creates the code the player has to break
      * @return string
@@ -139,6 +138,27 @@ class Model_MasterMindGame extends Model_AbstractGame
         $MasterMind->setGameStatus(Model_StatutPartie::from($data["status"]));
         $MasterMind->setCodeToGuess($data["codeToGuess"]);
         $MasterMind->setData($data["data"]);
+        return $MasterMind;
+    }
+
+    public function save($filename = "save"): void
+    {
+        $savefile = fopen("../Saves/".$filename.".txt", "w") or die ('Impossible d\'ouvrir le fichier !');
+        $savedatas = json_encode($this->serialize());
+        fwrite($savefile, $savedatas);
+        fclose($savefile);
+    }
+
+    public static function load($filename = "save"): Model_MasterMindGame
+    {
+        $loadfile = fopen("../Saves/".$filename.".txt", "r") or die ('Impossible d\'ouvrir le fichier !');
+        $save = json_decode(fread($loadfile, filesize("../Saves/". $filename.".txt")));
+        $MasterMind = new Model_MasterMindGame();
+        $MasterMind->setGameStatus(Model_StatutPartie::EnCours);
+        var_dump($save);
+        $MasterMind->setCodeToGuess($save->codeToGuess);
+        $MasterMind->setData($save->data);
+        fclose($loadfile);
         return $MasterMind;
     }
 }
