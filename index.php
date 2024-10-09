@@ -35,7 +35,6 @@
         echo "<br>";
         echo "<br>";
         echo "<br>";
-        var_dump(Model_MasterMindGame::unserialize($_SESSION['MasterMindGame']));
 
         require_once "Vue/vuePropositions.php"; //Appel de la vuePropositions pour le plateau de jeu
         ?>
