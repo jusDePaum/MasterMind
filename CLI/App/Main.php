@@ -127,7 +127,7 @@ class App_Main
             Le joueur propose une combinaison. L'ordinateur lui retourne un code sous forme de balises sans préciser quel
             chiffre correspond à quelle balise : une balise [R] par chiffre juste mais mal placé, et une balise [W] par chiffre bien
             placé
-            Lorsque le code est 4 balies [W], le joueur a gagné et peut relancer une partie\n
+            Lorsque le code est 4 balises [W], le joueur a gagné et peut relancer une partie\n
             À toi de jouer !\n\n";
     }
 }
