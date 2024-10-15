@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Détruit tout le contenu de la session
  */

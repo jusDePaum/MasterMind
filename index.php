@@ -19,13 +19,16 @@
             placé.<br><br>
             Lorsque le code est 4 pions blancs, le joueur a gagné et peut relancer une partie.</p>
     </div>
-    <form method="post" action="/Controleur/controleurSave.php">
-        <p>Tu peux sauvegarder ta partie et la reprendre plus tard via les boutons ci-dessous.<br>
-        Utilise le champ ci-dessous pour nommer ton fichier/choisir le fichier à charger !</p>
-        <input type="text" name="filename" placeholder="Nom du fichier"/>
-        <input type="submit" name="save" value="Sauvegarder">
-        <input type="submit" name="load" value="Charger">
-    </form>
+    <div class="manageSave">
+        <form method="post" action="/Controleur/controleurSave.php">
+            <p>Tu peux sauvegarder ta partie et la reprendre plus tard via les boutons ci-dessous.<br>
+                Utilise le champ ci-dessous pour nommer ton fichier/choisir le fichier à charger !</p>
+            <input type="submit" name="save" value="Sauvegarder">
+        </form>
+        <form method="post" action="Controleur/controleurUpload.php" enctype="multipart/form-data">
+            <input type="file" onchange="this.form.submit()" accept= "*.weemind" name="file">
+        </form>
+    </div>
     <form method="post" action="/Controleur/controleurVerification.php">
         <?php
         require_once "autoLoader.php";
@@ -33,7 +36,6 @@
 
         if(!isset($_SESSION['MasterMindGame'])){
             $MasterMind = new Model_MasterMindGame();
-            $MasterMind->initGame(4);
             $_SESSION['MasterMindGame'] = $MasterMind->serialize();
         }
         else{
