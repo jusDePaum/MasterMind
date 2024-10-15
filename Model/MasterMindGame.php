@@ -8,7 +8,7 @@ class Model_MasterMindGame extends Model_AbstractGame
 
     public function __construct(int $boardSize = 4)
     {
-        parent::initGame($boardSize, 1, [self::CONFIG_CODE_TO_GUESS => $this->createCode()]);
+        parent::initGame($boardSize, 1, [self::CONFIG_CODE_TO_GUESS => $this->createCode($boardSize)]);
     }
 
     /**
@@ -18,7 +18,7 @@ class Model_MasterMindGame extends Model_AbstractGame
     public function playMove(?string $move = ""): void
     {
         $proposition = "";
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < $this->config[$this::CONFIG_BOARD_SIZE]; $i++) {
             $proposition .= $_POST["input" . $i];
         }
         $this->moves[] = $proposition;
@@ -37,7 +37,7 @@ class Model_MasterMindGame extends Model_AbstractGame
         }
         $points = [];
         //1er parcours - Recherche des pions blancs
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < $this->config[$this::CONFIG_BOARD_SIZE]; $i++) {
             if ($move[$i] === $codeToGuess[$i]) {
                 $points[] = 'W';
                 //On modifie les valeurs dans le $codeToGuess et $proposition pour éviter qu'elles soient recomptées
@@ -46,8 +46,8 @@ class Model_MasterMindGame extends Model_AbstractGame
             }
         }
         //2nd parcours - Recherche des pions rouges
-        for ($i = 0; $i < 4; $i++) {
-            for ($j = 0; $j < 4; $j++) {
+        for ($i = 0; $i < $this->config[$this::CONFIG_BOARD_SIZE]; $i++) {
+            for ($j = 0; $j < $this->config[$this::CONFIG_BOARD_SIZE]; $j++) {
                 if ($codeToGuess[$i] === $move[$j]) {
                     $points[] = "R";
                     //On modifie les valeurs dans le $codeToGuess et $move pour éviter qu'elles soient recomptées
@@ -61,14 +61,15 @@ class Model_MasterMindGame extends Model_AbstractGame
 
     /***
      * Creates the code the player has to break
+     * @param int $boardSize
      * @return string
      */
-    function createCode(): string
+    function createCode(int $boardSize): string
     {
         try {
             $codeMaker = strval(random_int(1, 6)); //Initialisation de la variable codeMaker, avec le 1er chiffre, qui contiendra temporairement la clé
-            for ($i = 0; $i < 3; $i++) {
-                $codeMaker .= random_int(1, 6); //Ajout des 3 chiffres suivants à la clé
+            for ($i = 0; $i < $boardSize-1; $i++) {
+                $codeMaker .= random_int(1, 6); //Ajout des x chiffres suivants à la clé
             }
             return $codeMaker;
         } catch (RandomException) { //Erreur provenant de la fonction random_int()
